@@ -1,0 +1,28 @@
+.container{
+  height: 100vh;
+  width: 100vw;
+  background: rgb(237, 202, 238);
+}
+
+.header-content{
+  background: #352432;
+  height: 55px;
+  width: 100%;
+  margin: 0;
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heading h1{
+  color: #d68538;
+  width: 100%;
+}
+
+.hero-img{
+  width: 100%;
+  height: 15vh;
+opacity: 0.75;
+}
