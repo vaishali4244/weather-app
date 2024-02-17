@@ -1,115 +1,190 @@
-
-.content{
-    box-sizing: border-box;
-    width: 100%;
-    height: 18vh;
-    background: #f2f2f2;
-    display: flex;
- justify-content: center;
- align-items: center;
- position: relative;
- top: -4px;
-}
-
-.search-input input{
-border: 1px solid #352432;
-height: 30px;
-width: 200px;
-border-radius: 5px 0 0 5px ;
-padding: 0 8px;
-
-}
-
-.search-input button{
-    background: #352432;
-    border: 1px solid #352432;
-height: 32px;
-width: 85px;
-font-size: 16px;
-font-weight: 400;
-border-radius: 0 5px 5px 0;
-color: #d79455;
-position: relative;
-left: -1.5px;
-}
-
-.temp-opt input{
-    height: 20px;
-  width: 20px;
-  background-color: #57310d;
-  border: 4px solid green;
-}
-
-.city-temp{
+.content {
   box-sizing: border-box;
+  width: 100%;
+  height: 18vh;
+  background: #f2f2f2;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+  top: -4px;
+  flex-direction: column;
+}
+
+.search-input input {
+  border: 1px solid #352432;
+  height: 30px;
+  width: 200px;
+  border-radius: 5px 0 0 5px;
+  padding: 0 8px;
+}
+
+.search-input button {
+  background: #352432;
+  border: 1px solid #352432;
+  height: 32px;
+  width: 85px;
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 0 5px 5px 0;
+  color: #d79455;
+  position: relative;
+  left: -1.5px;
+  cursor: pointer;
+}
+
+.temp-opt input {
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  margin-left: 1vw;
+}
+
+.temp-opt label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.temp-opt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recent-cities {
+  width: 10vw;
+  position: relative;
+  left: 20vw;
+  display: inline-block;
+}
+
+.drop-btn {
+  background-color: #d68538;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 15px;
+  min-width: 140px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 140px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content li {
+  color: black;
+  padding: 7px 10px;
+  text-decoration: none;
+  display: block;
   margin: auto;
 }
 
-.city-details{
+.dropdown-content li:hover {
+  background-color: #ddd;
+}
+
+.recent-cities:hover .dropdown-content {
+  display: block;
+}
+
+.city-temp {
   box-sizing: border-box;
-  background:#352432;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5vh;
+  height: 57.7vh;
+}
+
+.city-details {
+  box-sizing: border-box;
+  background: #352432;
   width: 50vw;
   height: 35vh;
   color: white;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   border-radius: 15px;
-  /* line-height:1.5rem; */
   font-stretch: expanded;
 }
 
-.weather-data{
+.weather-data {
   display: flex;
   justify-content: space-between;
   width: 90%;
-  }
+}
 
-.temp-data{
+.temp-data {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   height: 20vh;
 }
 
-.temp-data p{
-  margin:5px 0;
+.temp-data p {
+  margin: 5px 0;
 }
 
-.city{
+.city {
   color: #d68538;
-  font-size: 1.8rem;
-  margin-bottom:0 ;
+  font-size: 2.8rem;
   margin-top: 2vh !important;
 }
 
-.temp-data .weather{
+.temp-data .weather {
   color: #d68538;
   font-size: 2.2rem;
-font-weight: 600;
-margin-bottom:0 ;
-margin-top: 2vh;
-
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 2vh;
 }
 
-.temp-data p{
-  margin:5px 0;
+.temp-data p {
+  margin: 5px 0;
 }
 
-.more-data{
+.more-data {
   height: 15vw;
   width: 90%;
   display: flex;
   flex-direction: column;
-  justify-content: center; 
+  justify-content: center;
   align-items: flex-start;
 }
-.more-data p{
+.more-data p {
   padding: 0;
-  margin:2px 0;
+  margin: 2px 0;
   font-size: 0.8rem;
+}
+
+@media screen and (max-width: 850px) {
+  .city-temp {
+    height: auto;
+  }
+  .city-details {
+    flex-direction: column;
+    height: 50vh;
+  }
+  .weather-data {
+    flex-direction: column;
+  }
+  .weather {
+    display: none;
+  }
+  .more-data {
+    position: relative;
+    bottom: 12vh;
+  }
+  .recent-cities {
+    display: none;
+  }
 }

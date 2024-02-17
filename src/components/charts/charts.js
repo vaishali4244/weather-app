@@ -1,97 +1,85 @@
 import React, { useEffect, useState } from 'react';
 import CanvasJSReact from '@canvasjs/react-charts';
 import axios from 'axios';
-import './charts.css'
+import './charts.css';
 
+const Charts = ({ currentCity }) => {
+    const [chartData, setChartData] = useState([]);
+    const [locationKey, setLocationKey] = useState("");
+    const [graphDisplay, setGraphDisplay] = useState("none")
 
-const Charts = ({ search, setSearch,currentCity }) => {
-    const [chartData, setChartData] = useState([])
-const [locationKey,setLocationKey] =useState("")
-
-    var CanvasJS = CanvasJSReact.CanvasJS;
+    // var CanvasJS = CanvasJSReact.CanvasJS;
     var CanvasJSChart = CanvasJSReact.CanvasJSChart;
-    console.log("chart data", new Date(2017, 0))
-
-    let api_key2 = "a882ffaad1641b85d7c373a0bdaea292"
 
 
     useEffect(() => {
-        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ&q=${currentCity}`
-         )
+        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ&q=${currentCity}`)
+            .then(response => {
+                setLocationKey(response?.data[0]?.Key);
 
-             .then(response => {
-                 console.log("city number",response)
-                 setLocationKey(response?.data)
-                    })
-             .catch(err => console.log("error in city", err));
-     }, [currentCity])
+                // Second API call with locationKey as parameter
+                axios.get(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ`)
+                    .then(res => {
+                        const arr = [];
+                        for (let i = 0; i < res?.data?.length; i++) {
 
-    useEffect(() => {
-        axios.get(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/204842?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ`
-         )
-        
-             .then(res => {
-                const arr=[]
-                for(let i=0;i<res?.data?.length;i++){
-                    // console.log("viv data",res?.data?.DateTime)
-                    const obj={x:new Date(res?.data[i]?.DateTime), y:res?.data[i]?.Temperature?.Value}
-                    arr.push(obj)
-                      }      
-                      setChartData(arr)
-               console.log("viv graph res",res)
+                            //convert input temperature from F to C.
+                            const celsiusValue = (res?.data[i]?.Temperature?.Value - 32) * 5 / 9;
+                            const obj = { x: new Date(res?.data[i]?.DateTime), y: celsiusValue };
+                            arr.push(obj);
+                        }
+                        setChartData(arr);
+                        // console.log("graph res", res)
+                        setGraphDisplay("block");
                     })
-             .catch(err => console.log("error in graph", err));
-     }, [])
+                    .catch(err => {
+                        // console.log("error in graph", err);
+                        setGraphDisplay("none")
+                    })
+            })
+            .catch(err => {
+                // console.log("error in city key", err)
+            });
+    }, [currentCity,locationKey]);
 
     const options = {
         animationEnabled: true,
         title: {
-            text: "Monthly Sales - 2017"
+            text: "Temperature in next 12 hours",
+            fontColor: "#352432",
+            fontSize: 18,
+            fontWeight: 0,
         },
         axisX: {
-            valueFormatString: "MMM"
+            title: "Time",
+            type: "time",
+            valueFormatString: "HH:mm",
+            gridThickness: 0,
+            titleFontSize: 16,
         },
         axisY: {
-            // title: "Sales (in USD)",
-            // prefix: "$"
-            title: "temperature",
-            suffix: "F"
+            title: "Temperature",
+            suffix: "°C",
+            gridThickness: 0,
+            titleFontSize: 16,
         },
         data: [{
-            yValueFormatString: "$#,###",
-            // xValueFormatString: "MMMM Do YYYY, h:mm:ss a",
-            xValueFormatString: "MMMM Do, h a", 
-            type: "spline",
-            dataPoints: chartData
-            // [
-            //     { x: new Date(2017, 0), y: 25060 },
-            //     { x: new Date(2017, 1), y: 27980 },
-            //     { x: new Date(2017, 2), y: 42800 },
-            //     { x: new Date(2017, 3), y: 32400 },
-            //     { x: new Date(2017, 4), y: 35260 },
-            //     { x: new Date(2017, 5), y: 33900 },
-            //     { x: new Date(2017, 6), y: 40000 },
-            //     { x: new Date(2017, 7), y: 52500 },
-            //     { x: new Date(2017, 8), y: 32300 },
-            //     { x: new Date(2017, 9), y: 42000 },
-            //     { x: new Date(2017, 10), y: 37160 },
-            //     { x: new Date(2017, 11), y: 38400 }
-            // ]
-        }]
-    }
-
-   
-
+            yValueFormatString: "#,###",
+            xValueFormatString: "HH:mm",
+            type: "splineArea",
+            dataPoints: chartData,
+        }],
+        height: 260,
+        backgroundColor: "#e6bf9b",
+    };
 
     return (
-        <div>
-            <div className="chart-content">
-                <CanvasJSChart  options={options}
-                /* onRef={ref => this.chart = ref} */
-                />
-            </div>
-        </div >
-    )
-}
+
+        <div className="chart-content" style={{ display: graphDisplay }}>
+            <CanvasJSChart className="canvas-chart" options={options} />
+        </div>
+
+    );
+};
 
 export default Charts;

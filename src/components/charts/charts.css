@@ -1,5 +1,7 @@
-
-
 .chart-content{
-    width: 70vw;
-}
+    width:55vw;
+    display: flex;
+    margin: auto;
+  }
+
+ 
