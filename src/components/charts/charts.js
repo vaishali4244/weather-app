@@ -7,18 +7,18 @@ const Charts = ({ currentCity }) => {
     const [chartData, setChartData] = useState([]);
     const [locationKey, setLocationKey] = useState("");
     const [graphDisplay, setGraphDisplay] = useState("none")
+    const accuKey = process.env.REACT_APP_ACCU_KEY;
 
     // var CanvasJS = CanvasJSReact.CanvasJS;
     var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-
     useEffect(() => {
-        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ&q=${currentCity}`)
+        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${accuKey}=${currentCity}`)
             .then(response => {
                 setLocationKey(response?.data[0]?.Key);
 
                 // Second API call with locationKey as parameter
-                axios.get(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=Cz0KRlAxSEDcAaa4pcf4hNCG9JFCf3wJ`)
+                axios.get(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${accuKey}`)
                     .then(res => {
                         const arr = [];
                         for (let i = 0; i < res?.data?.length; i++) {
@@ -40,7 +40,7 @@ const Charts = ({ currentCity }) => {
             .catch(err => {
                 // console.log("error in city key", err)
             });
-    }, [currentCity,locationKey]);
+    }, [currentCity, locationKey]);
 
     const options = {
         animationEnabled: true,

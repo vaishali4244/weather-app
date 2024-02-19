@@ -3,27 +3,25 @@ import axios from 'axios';
 import './searchBar.css';
 
 
-const SearchBar = ({ setCurrentCity, cityName, setCityName, display, setDisplay }) => {
+const SearchBar = ({ setCurrentCity, setCityName }) => {
 
     const [data, setData] = useState("")
-    // const [cityName, setCityName] = useState([])
-    // const [display, setDisplay] = useState(false)
     const [search, setSearch] = useState("")
     const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+    const openKey = "b0842bad6e5cb89733c63d666132f4d0"
     const options = {
         weekday: 'long',
         month: 'long',
         day: 'numeric'
     };
-    
+
     let date = new Date();
     const formattedDate = date.toLocaleDateString('en-US', options);
-    let api_key1 = "b0842bad6e5cb89733c63d666132f4d0"
 
     const searchFunc = async () => {
 
         //to get weather report of partucular city
-        await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${search}&units=Metric&appid=${api_key1}`)
+        await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${search}&units=Metric&appid=${openKey}`)
             .then(res => {
                 if (search?.length === 0) {
                     window.alert("Enter the correct City. ")
@@ -71,7 +69,7 @@ const SearchBar = ({ setCurrentCity, cityName, setCityName, display, setDisplay 
         }
     };
 
-   
+
     return (
         <>
             <div className="content">
@@ -85,24 +83,24 @@ const SearchBar = ({ setCurrentCity, cityName, setCityName, display, setDisplay 
                 </div>
 
                 <div className="temp-opt">
-                    <label onClick={TemperatureInputFunc}> 
-                    <input
-                        name="temperature"
-                        type="radio"
-                        value="celsius"
-                        checked={temperatureUnit === "celsius"}
-                        onChange={TemperatureInputFunc}
-                    /> Celsius °C</label>
                     <label onClick={TemperatureInputFunc}>
                         <input
-                        name="temperature"
-                        type="radio"
-                        value="fahrenheit"
-                        checked={temperatureUnit === "fahrenheit"}
-                        onChange={TemperatureInputFunc}
-                    /> Fahrenheit °F</label>
+                            name="temperature"
+                            type="radio"
+                            value="celsius"
+                            checked={temperatureUnit === "celsius"}
+                            onChange={TemperatureInputFunc}
+                        /> Celsius °C</label>
+                    <label onClick={TemperatureInputFunc}>
+                        <input
+                            name="temperature"
+                            type="radio"
+                            value="fahrenheit"
+                            checked={temperatureUnit === "fahrenheit"}
+                            onChange={TemperatureInputFunc}
+                        /> Fahrenheit °F</label>
                 </div>
-        
+
             </div>
 
             <div className="city-temp">
@@ -117,14 +115,14 @@ const SearchBar = ({ setCurrentCity, cityName, setCityName, display, setDisplay 
                             <p className=''>
                                 {data?.sys?.country}
                             </p>
-                            <p>Temperature : {(getTemp() )}
+                            <p>Temperature : {(getTemp())}
                             </p>
                         </div>
 
                         <div className="temp-data">
                             <p className='weather'>Weather</p>
                             <p>{formattedDate}</p>
-                            <p>{data?.weather ? data?.weather[0]?.main : ""} 
+                            <p>{data?.weather ? data?.weather[0]?.main : ""}
                             </p>
                         </div>
                     </div>
