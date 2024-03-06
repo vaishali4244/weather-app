@@ -39,7 +39,7 @@ const Charts = ({ currentCity }) => {
             .catch(err => {
                 // console.log("error in city key", err)
             });
-    }, [currentCity, locationKey]);
+    }, [currentCity, locationKey, accuKey]);
 
     const options = {
         animationEnabled: true,
