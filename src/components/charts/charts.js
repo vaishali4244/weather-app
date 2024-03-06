@@ -8,12 +8,11 @@ const Charts = ({ currentCity }) => {
     const [locationKey, setLocationKey] = useState("");
     const [graphDisplay, setGraphDisplay] = useState("none")
     const accuKey = process.env.REACT_APP_ACCU_KEY;
-
     // var CanvasJS = CanvasJSReact.CanvasJS;
     var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
     useEffect(() => {
-        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${accuKey}=${currentCity}`)
+        axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${accuKey}&q=${currentCity}`)
             .then(response => {
                 setLocationKey(response?.data[0]?.Key);
 

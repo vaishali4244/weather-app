@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Charts from "../components/charts/charts";
 import SearchBar from "../components/searchBar/searchBar";
+// import FiveDays from "../components/charts/fiveDays";
 
 
 const Screen = () => {
@@ -36,6 +37,7 @@ const Screen = () => {
             <img className="hero-img" src={require("../assets/hero.jpg")} alt="" />
             <SearchBar setCurrentCity={setCurrentCity} setCityName={setCityName} />
             <Charts currentCity={currentCity} />
+            {/* <FiveDays currentCity={currentCity} /> */}
         </div>
     )
 }

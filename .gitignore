@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/src/components/charts/fiveDays.js
 
 # testing
 /coverage
