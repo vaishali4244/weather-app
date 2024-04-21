@@ -1,5 +1,5 @@
 .container {
-  height: auto;
+  min-height: 100vh;
   width: 98.7vw;
   background: rgb(237, 202, 238);
   box-sizing: border-box;

@@ -1,22 +1,33 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './searchBar.css';
 
+type TProps ={
+    setCurrentCity:(value:string)=>void;
+    setCityName:(value:any)=>void;
+}
 
-const SearchBar = ({ setCurrentCity, setCityName }) => {
+type TOptionProps ={
+    weekday:"narrow" | "short" | "long" | undefined;
+    month:"narrow" | "short" | "long" | "numeric" | "2-digit" | undefined;
+    day:"numeric" | "2-digit" | undefined
+}
 
-    const [data, setData] = useState("")
-    const [search, setSearch] = useState("")
-    const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+const SearchBar = ({ setCurrentCity, setCityName }:TProps) => {
+
+    const [data, setData] = useState<any>([])
+    const [search, setSearch] = useState<string>("")
+    const [display,setDisplay] = useState(false)
+    const [temperatureUnit, setTemperatureUnit] = useState<string>("celsius");
     const openKey = "b0842bad6e5cb89733c63d666132f4d0"
-    const options = {
+    const options:TOptionProps = {
         weekday: 'long',
         month: 'long',
         day: 'numeric'
     };
 
     let date = new Date();
-    const formattedDate = date.toLocaleDateString('en-US', options);
+    const formattedDate = date?.toLocaleDateString('en-US', options);
 
     const searchFunc = async () => {
 
@@ -29,6 +40,7 @@ const SearchBar = ({ setCurrentCity, setCityName }) => {
                 else {
                     setCurrentCity(res?.data?.name)
                     setData(res?.data)
+                    setDisplay(true);
 
                     // Add the city to the recentCities array
                     setCityName((prevCities) => {
@@ -103,7 +115,8 @@ const SearchBar = ({ setCurrentCity, setCityName }) => {
 
             </div>
 
-            <div className="city-temp">
+    {display  &&      
+    <div className="city-temp">
 
                 <div className="city-details">
                     <div className="weather-data">
@@ -135,6 +148,7 @@ const SearchBar = ({ setCurrentCity, setCityName }) => {
                 </div>
 
             </div>
+}
         </>
     )
 }

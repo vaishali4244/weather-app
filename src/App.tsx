@@ -1,5 +1,6 @@
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Screen from './screen/screen';
+import Screen from './screen/screen.tsx';
 import './App.css';
 
 function App() {

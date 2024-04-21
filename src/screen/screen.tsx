@@ -1,13 +1,14 @@
-import { useState } from "react";
-import Charts from "../components/charts/charts";
-import SearchBar from "../components/searchBar/searchBar";
-// import FiveDays from "../components/charts/fiveDays";
+import { Dispatch, SetStateAction, useState } from "react";
+import React from 'react';
+import Charts from "../components/charts/charts.tsx";
+import SearchBar from "../components/searchBar/searchBar.tsx";
+
 
 
 const Screen = () => {
-    const [currentCity, setCurrentCity] = useState("delhi");
-    const [cityName, setCityName] = useState([])
-    const [display, setDisplay] = useState(false)
+    const [currentCity, setCurrentCity] = useState<string>("delhi");
+    const [cityName, setCityName] = useState<string[]>([])
+    const [display, setDisplay] = useState<boolean>(false)
 
     const toggleRecentCities = () => {
         setDisplay(!display);
@@ -35,9 +36,8 @@ const Screen = () => {
                 </div>
             </header>
             <img className="hero-img" src={require("../assets/hero.jpg")} alt="" />
-            <SearchBar setCurrentCity={setCurrentCity} setCityName={setCityName} />
+            <SearchBar setCurrentCity={setCurrentCity} setCityName={setCityName as Dispatch<SetStateAction<string[]>>} />
             <Charts currentCity={currentCity} />
-            {/* <FiveDays currentCity={currentCity} /> */}
         </div>
     )
 }

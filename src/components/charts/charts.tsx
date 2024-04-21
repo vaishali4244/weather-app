@@ -3,10 +3,21 @@ import CanvasJSReact from '@canvasjs/react-charts';
 import axios from 'axios';
 import './charts.css';
 
-const Charts = ({ currentCity }) => {
-    const [chartData, setChartData] = useState([]);
-    const [locationKey, setLocationKey] = useState("");
-    const [graphDisplay, setGraphDisplay] = useState("none")
+type TObj = {
+    x: Date;
+    y: number;
+}
+type TLocation = string;
+
+interface TProps {
+    currentCity: string
+}
+
+
+const Charts = ({ currentCity }: TProps) => {
+    const [chartData, setChartData] = useState<TObj[]>([]);
+    const [locationKey, setLocationKey] = useState<TLocation>("");
+    const [graphDisplay, setGraphDisplay] = useState<string>("none")
     const accuKey = process.env.REACT_APP_ACCU_KEY;
     // var CanvasJS = CanvasJSReact.CanvasJS;
     var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -19,25 +30,24 @@ const Charts = ({ currentCity }) => {
                 // Second API call with locationKey as parameter
                 axios.get(`http://dataservice.accuweather.com/forecasts/v1/hourly/12hour/${locationKey}?apikey=${accuKey}`)
                     .then(res => {
-                        const arr = [];
+                        const arr: TObj[] = [];
                         for (let i = 0; i < res?.data?.length; i++) {
 
                             //convert input temperature from F to C.
                             const celsiusValue = (res?.data[i]?.Temperature?.Value - 32) * 5 / 9;
-                            const obj = { x: new Date(res?.data[i]?.DateTime), y: celsiusValue };
+                            const obj: TObj = { x: new Date(res?.data[i]?.DateTime), y: celsiusValue };
                             arr.push(obj);
                         }
                         setChartData(arr);
-                        // console.log("graph res", res)
                         setGraphDisplay("block");
                     })
                     .catch(err => {
-                        // console.log("error in graph", err);
                         setGraphDisplay("none")
                     })
             })
             .catch(err => {
                 // console.log("error in city key", err)
+                setGraphDisplay("none")
             });
     }, [currentCity, locationKey, accuKey]);
 
